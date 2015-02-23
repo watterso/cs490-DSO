@@ -22,13 +22,17 @@ public class RMIChatClient extends Thread{
 	ServerSocket requestSocket;
 	Socket chatSocket;
 	boolean chatting;
-	ChatClient remoteClient;
+	ChatClientInterface remoteClient;
+	ChatClientInterface myInterface;
+	
 	
 	public RMIChatClient(String name) throws IOException, NotBoundException{
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		chatting = false;
+		remoteClient = null;
 		
 		ChatClient mClient = new ChatClient();
+		
 		ChatServerInterface server = (ChatServerInterface)Naming.lookup("rmi://localhost/le_chat");
 		boolean reg_success = server.register(name, mClient);
 		if(!reg_success){
@@ -51,7 +55,8 @@ public class RMIChatClient extends Thread{
 					}else if(line.equals("connectto")){
 						System.out.print("Enter client's name: ");
 						String remote_name = input.readLine();
-						remoteClient =  (ChatClient) server.getClient(remote_name);
+						remoteClient =  server.getClient(remote_name);
+						remoteClient.setChatting(mClient);
 						if(remoteClient == null){
 							System.out.println("Invalid name.");
 						}else{
@@ -63,9 +68,13 @@ public class RMIChatClient extends Thread{
 						System.out.println("Invalid command");
 					}
 				}
+				if(mClient.isChatting()){
+					chatting=true;
+					remoteClient=mClient.getInterface();
+				}
 			}
 			while(chatting){
-				System.out.println(chatting);
+				//System.out.println(chatting);
 				remoteClient.sendMsg(input.readLine());
 			}
 		}
