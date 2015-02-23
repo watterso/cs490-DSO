@@ -1,5 +1,8 @@
 package part3;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,10 +17,24 @@ public class RMIChatServer extends UnicastRemoteObject implements ChatServerInte
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String [] args){
-		System.out.println("server started");
+
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Enter in server url (Default rmi://localhost/rmiserver");
+		String url="rmi://localhost/rmiserver";
+		try {
+			String temp = input.readLine();
+			if(!temp.equals("")){
+				url=temp;
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		System.out.println("Server started");
 		try {
 			RMIChatServer server = new RMIChatServer();
-			Naming.rebind("rmi://localhost/le_chat", server);
+			Naming.rebind(url, server);
 			//TODO call server.prune to catch heartbeats fails, alert clients of deregister?
 			
 		} catch (Exception e) {

@@ -13,10 +13,13 @@ import java.util.Scanner;
 
 public class RMIChatClient extends Thread{
 	public static void main(String[] args) throws IOException, NotBoundException{
-		System.out.println("enter name");
+		System.out.println("Enter name");
 		Scanner input = new Scanner(System.in);
+		
 		String name = input.nextLine();
-		RMIChatClient blah = new RMIChatClient(name);
+		System.out.println("Enter server url");
+		String serverurl = input.nextLine();
+		RMIChatClient blah = new RMIChatClient(name, serverurl);
 	}
 	
 	ServerSocket requestSocket;
@@ -26,7 +29,7 @@ public class RMIChatClient extends Thread{
 	ChatClientInterface myInterface;
 	
 	
-	public RMIChatClient(String name) throws IOException, NotBoundException{
+	public RMIChatClient(String name, String serverurl) throws IOException, NotBoundException{
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		chatting = false;
 		remoteClient = null;
