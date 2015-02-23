@@ -37,18 +37,14 @@ public class SingleThreadedChatServer extends Thread{
 
 					System.out.println("NEW REQUEST");
 
-					System.out.println("SWEET NIPS");
 					ObjectOutputStream writer = new ObjectOutputStream(newSocket.getOutputStream());
 					writer.flush();
-					System.out.println("SWEET TITS");
 					ObjectInputStream reader = new ObjectInputStream(newSocket.getInputStream());
 
 					Connection newMember = new Connection();
-					System.out.println("SWEET BUTTS");
 					newMember.socket = newSocket;
 					newMember.readStream = reader; 
 					newMember.writeStream = writer;
-					System.out.println("SWEET LIPS");
 					newMember.lastHeartbeat = currSeconds();
 
 					System.out.println("Adding connection....");
@@ -101,7 +97,6 @@ public class SingleThreadedChatServer extends Thread{
 				}
 			case 2:			//heartbeat message
 				if(currSeconds() - connection.lastHeartbeat > heartbeat_rate){
-					System.out.println("SAD BUNS");
 					connection.close();
 					names.remove(connection.name);
 					return false;
