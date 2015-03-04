@@ -1,24 +1,24 @@
 package part1;
 
 public class Process {
-	private String IP;
-	private int port;
-	private String ID;
-	public Process( String IP, int port, String ID) {
-		this.IP = IP;
-		this.port=port; 
-		this.ID = ID;
+	private String mIp;
+	private int mPort;
+	private String mId;
+	public Process(String ip, int port, String id) {
+		this.mIp = ip;
+		this.mPort=port; 
+		this.mId = id;
 	}
 	public String getIP(){
-		return IP ;
+		return mIp ;
 	}
 	public int getPort(){
-		return port ;
+		return mPort ;
 	}
 	public String getID() {
-		return ID;
+		return mId;
 	}
 	public void send(Message m){
-		//TODO send message
+		//TODO send message sockets etc
 	}
 }
