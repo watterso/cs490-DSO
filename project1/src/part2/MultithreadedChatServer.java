@@ -91,6 +91,7 @@ public class MultithreadedChatServer{
 				}
 			case 3:			//get message
 				connection.writeStream.writeObject(names.values());
+				connection.writeStream.reset();
 				return true;
 			default:
 				connection.close();
