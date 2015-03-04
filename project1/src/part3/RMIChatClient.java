@@ -36,7 +36,7 @@ public class RMIChatClient extends Thread{
 		
 		ChatClient mClient = new ChatClient();
 		
-		ChatServerInterface server = (ChatServerInterface)Naming.lookup("rmi://localhost/le_chat");
+		ChatServerInterface server = (ChatServerInterface)Naming.lookup(serverurl);
 		boolean reg_success = server.register(name, mClient);
 		if(!reg_success){
 			System.out.println("That name is already taken.");

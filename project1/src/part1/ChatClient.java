@@ -18,9 +18,10 @@ public class ChatClient extends Thread{
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		if(args.length<2){
 			Scanner input = new Scanner(System.in);
+			String serverip = input.nextLine();
 			String name = input.nextLine();
 			int port  = Integer.parseInt(input.nextLine());
-			ChatClient blah = new ChatClient(name, "localhost", port, 4269, 10);
+			ChatClient blah = new ChatClient(name, serverip, port, 4269, 10);
 			blah.connect();
 			blah.chat();
 		}else{
