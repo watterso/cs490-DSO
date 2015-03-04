@@ -1,9 +1,11 @@
 package part1;
 
 public class Process {
+	
 	private String mIp;
 	private int mPort;
 	private String mId;
+	
 	public Process(String ip, int port, String id) {
 		this.mIp = ip;
 		this.mPort=port; 

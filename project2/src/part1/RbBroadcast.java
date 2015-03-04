@@ -1,14 +1,18 @@
 package part1;
 
+import java.util.HashSet;
+
 public class RbBroadcast implements ReliableBroadcast, BroadcastReceiver{
 
+	private HashSet<Integer> mDeliveredMessages;
 	private BeBroadcast mBebroadcast;
 	private BroadcastReceiver mOutputReceiver;
-	
+
 	@Override
 	public void init(Process currentProcess, BroadcastReceiver br) {
-		mBebroadcast = new BeBroadcast();
+		mDeliveredMessages = new HashSet<Integer>();
 		mOutputReceiver = br;
+		mBebroadcast = new BeBroadcast();
 		mBebroadcast.init(currentProcess, this);
 	}
 
@@ -24,14 +28,20 @@ public class RbBroadcast implements ReliableBroadcast, BroadcastReceiver{
 
 	@Override
 	public void rbroadcast(Message m) {
+		int messageNumber = m.getMessageNumber();
+		mDeliveredMessages.add(messageNumber);
+		this.receive(m);
 		mBebroadcast.broadcast(m);
 	}
 
 	@Override
 	public void receive(Message m) {
-		rbroadcast(m);
-		//rbdeliver
-		mOutputReceiver.receive(m);
+		int messageNumber = m.getMessageNumber();
+		if(!mDeliveredMessages.contains(messageNumber)){
+			mDeliveredMessages.add(messageNumber);
+			//rbdeliver
+			mOutputReceiver.receive(m);
+			mBebroadcast.broadcast(m);
+		}
 	}
-
 }
