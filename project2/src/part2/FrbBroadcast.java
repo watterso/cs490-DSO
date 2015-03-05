@@ -111,4 +111,9 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 	public void removeMember(Process member) {
 		mRbbroadcast.addMember(member);
 	}
+
+	@Override
+	public void broadcast(Message m) {
+		this.FIFObroadcast(m);
+	}
 }

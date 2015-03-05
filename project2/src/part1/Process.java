@@ -11,16 +11,21 @@ public class Process {
 		this.mPort=port; 
 		this.mId = id;
 	}
+	
 	public String getIP(){
 		return mIp ;
 	}
+	
 	public int getPort(){
 		return mPort ;
 	}
+	
 	public String getID() {
 		return mId;
 	}
+	
 	public void send(Message m){
-		//TODO send message sockets etc
+		//TODO send message via sockets
+		//TODO fail silently when message doesn't send correctly
 	}
 }

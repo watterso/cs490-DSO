@@ -49,4 +49,9 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 	public BroadcastReceiver getReceiver() {
 		return mBebroadcast;
 	}
+
+	@Override
+	public void broadcast(Message m) {
+		this.rbroadcast(m);
+	}
 }
