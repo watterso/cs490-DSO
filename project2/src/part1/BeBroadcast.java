@@ -25,7 +25,6 @@ public class BeBroadcast implements Broadcast, BroadcastReceiver {
 		mMembers.remove(member);
 	}
 
-	@Override
 	public void broadcast(Message m) {
 		for(Process p : mMembers){
 			//don't broadcast to yourself who likes congestion?
@@ -42,5 +41,10 @@ public class BeBroadcast implements Broadcast, BroadcastReceiver {
 	public void receive(Message m) {
 		//bebdeliver
 		mOutputReceiver.receive(m);
+	}
+
+	@Override
+	public BroadcastReceiver getReceiver() {
+		return this;
 	}
 }

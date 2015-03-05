@@ -2,7 +2,7 @@ package part1;
 
 import java.util.HashSet;
 
-public class RbBroadcast implements ReliableBroadcast, BroadcastReceiver{
+public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastReceiver{
 
 	private HashSet<Integer> mDeliveredMessages;
 	private BeBroadcast mBebroadcast;
@@ -43,5 +43,10 @@ public class RbBroadcast implements ReliableBroadcast, BroadcastReceiver{
 			mOutputReceiver.receive(m);
 			mBebroadcast.broadcast(m);
 		}
+	}
+
+	@Override
+	public BroadcastReceiver getReceiver() {
+		return mBebroadcast;
 	}
 }

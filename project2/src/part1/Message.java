@@ -5,4 +5,5 @@ public interface Message {
 	void setMessageNumber(int messageNumber);
 	String getMessageContents ();
 	void setMessageContents(String contents);
+	Process getSource();
 }
