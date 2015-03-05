@@ -2,6 +2,16 @@ package part1;
 
 import java.util.HashSet;
 
+/**
+ * The more useful low level Broadcast fully named Reliable Broadcast.
+ * In the receive() function this Broadcast does the gate-keeping logic
+ * around rbDeliver as well as implementing the eager algorithm of
+ * re-broadcasting all newly received messages. This Broadcast is directly
+ * dependent on BeBroadcast.
+ * 
+ * @author watterso
+ *
+ */
 public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastReceiver{
 
 	private HashSet<Integer> mDeliveredMessages;

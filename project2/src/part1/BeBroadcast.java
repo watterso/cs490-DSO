@@ -2,6 +2,16 @@ package part1;
 
 import java.util.HashSet;
 
+/**
+ * Simplest broadcast class more eloquently called Best Effort Broadcast.
+ * This is the lowest level broadcast on which all other processes depend.
+ * There is no conditional logic in the receive() function, the BeBroadcast
+ * simply immediately delivers by calling receive() on the BroadcastReceiver
+ * supplied in the constructor.
+ * 
+ * @author watterso
+ *
+ */
 public class BeBroadcast implements Broadcast, BroadcastReceiver {
 	
 	private HashSet<Process> mMembers;
@@ -27,7 +37,7 @@ public class BeBroadcast implements Broadcast, BroadcastReceiver {
 
 	public void broadcast(Message m) {
 		for(Process p : mMembers){
-			//don't broadcast to yourself who likes congestion?
+			//don't broadcast to yourself, who likes congestion?
 			if(p.equals(mCurrentProcess)) continue;
 			p.send(m);
 		}

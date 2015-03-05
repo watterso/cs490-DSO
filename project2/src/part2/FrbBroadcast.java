@@ -1,6 +1,5 @@
 package part2;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.SortedSet;
@@ -11,6 +10,19 @@ import part1.BroadcastReceiver;
 import part1.Message;
 import part1.Process;
 import part1.RbBroadcast;
+
+/**
+ * A more complicated Broadcast more eloquently named FIFO Reliable Broadcast.
+ * The logic for maintaining the FIFO ordering of messages from each specific
+ * process is located in receive(), but is split up into smaller private 
+ * functions readability sake. See those functions for further documentation.
+ * A key assumption of the pending set is that because a Message will only be
+ * rbDelivered once, after a Message is frbDelivered, it is removed from the
+ * pending set. This Broadcast is directly dependent on RbBroadcast.
+ * 
+ * @author watterso
+ *
+ */
 
 public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, BroadcastReceiver {
 
@@ -27,7 +39,12 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 		mSeqNumber = 0;
 		mPendingSet = new HashMap<String,SortedSet<Message>>();
 	}
-
+	
+	/**
+	 * Checks to see if a pending set is already created for Messages originating 
+	 * from a process identified by processId.
+	 * @param processId	Id of process for which to verify the pending set exists
+	 */
 	private void checkIndexAndInitialize(String processId){
 		if(mPendingSet.get(processId) == null){
 			mPendingSet.put(processId, new TreeSet<Message>(new Comparator<Message>() {
@@ -39,6 +56,15 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 		}
 	}
 
+	/**
+	 * Performs the gate keeper logic for delivering a Message
+	 * of sequence number seqNumber from Process with id processId.
+	 * Before a Message can be delivered, all prior messages must be pending
+	 * to be delivered first.
+	 * @param processId Id of Process for which to verify gate keeper logic
+	 * @param seqNumber Sequence number of Message for which to verify gate keeper logic
+	 * @return true if a Message is ready to be delivered, false if not.
+	 */
 	private boolean allPriorMessagesPending(String processId, int seqNumber){
 		if(mPendingSet.containsKey(processId)){
 			SortedSet<Message> priors = mPendingSet.get(processId);
@@ -59,12 +85,25 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 		}
 		return false;
 	}
-
-	private void addPending(String processId, Message m){
+	
+	/**
+	 * Adds supplied Message to the pending set of process identified by
+	 * processId
+	 * @param processId Id of Process to whom's pending set the Message will be added
+	 * @param m	Message to be added to a pending set.
+	 */
+	private void addToPending(String processId, Message m){
 		checkIndexAndInitialize(processId);
 		mPendingSet.get(processId).add(m);
 	}
-	
+
+	/**
+	 * Delivers Messages in the pending set for the Process identified by
+	 * processId up until and including the message with sequence number
+	 * seqNumber.
+	 * @param processId Process whose pending set is targeted for delivery.
+	 * @param seqNumber Inclusive upper limit on which messages to deliver.
+	 */
 	private void deliverUntil(String processId, int seqNumber) {
 		if(mPendingSet.containsKey(processId)){
 			SortedSet<Message> priors = mPendingSet.get(processId);
@@ -77,6 +116,7 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 			// remaining set is seqNumber and higher, deliver seqNumber
 			m = priors.first();
 			priors.remove(m);
+			//frbDeliver
 			mOutputReceiver.receive(m);
 		}
 	}
@@ -91,7 +131,7 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 	public void receive(Message m) {
 		String processId = m.getSource().getID();
 		int seqNumber = m.getMessageNumber();
-		addPending(processId, m);
+		addToPending(processId, m);
 		if(allPriorMessagesPending(processId, seqNumber)){
 			deliverUntil(processId, seqNumber);
 		}

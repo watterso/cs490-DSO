@@ -8,7 +8,7 @@ public class Process {
 	
 	public Process(String ip, int port, String id) {
 		this.mIp = ip;
-		this.mPort=port; 
+		this.mPort = port; 
 		this.mId = id;
 	}
 	
