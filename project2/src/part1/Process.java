@@ -36,6 +36,7 @@ public class Process{
 		try {
 			Socket connection = new Socket(mIp, mPort);
 			ObjectOutputStream output = new ObjectOutputStream(connection.getOutputStream());
+			output.flush(); //always flush after creating the stream
 			output.writeInt(1); //the int is the message type
 			output.flush();
 			output.reset();
