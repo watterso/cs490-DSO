@@ -43,7 +43,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 				if(mtype == 1){ //next object is a message
 					Message m = (Message)input.readObject();
 					this.receive(m);
-				}else if(mtype ==0){ //next object is a process to be added to the broadcast list
+				}else if(mtype == 0){ //next object is a process to be added to the broadcast list
 					Process p = (Process)input.readObject();
 					mBroadcast.addMember(p);
 				}
