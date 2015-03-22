@@ -1,6 +1,6 @@
 package part1;
 
-public interface Message {
+public interface Message{
 	int getMessageNumber() ;
 	void setMessageNumber(int messageNumber);
 	String getMessageContents ();
