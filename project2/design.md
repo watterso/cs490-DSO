@@ -20,6 +20,7 @@ In the case of Reliable Broadcast, when Best Effort Broadcast delivers a message
 The chat application itself implements the BroadcastReceiver interface which makes the receive() method available to be called when a message needs to be printed on the screen.
 Thus when the top-level broadcast strategy (either Reliable or FIFO Reliable Broadcast) determines a message should be displayed on screen, it calls receive() on its given BroadcastReceiver which is an instance of ChatClient.
 The image below provides a summarization of the chainning aspect and overall design of the application.
+
 ![Design Visualized](broadcast_design.png)
 ## Benchmarks
 #### 10 clients on 10 machines
