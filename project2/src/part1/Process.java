@@ -6,8 +6,12 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Process{
+public class Process implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5625734327622456589L;
 	private String mIp;
 	private int mPort;
 	private String mId;

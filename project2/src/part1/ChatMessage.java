@@ -2,6 +2,10 @@ package part1;
 
 public class ChatMessage implements Message {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3374003399602388952L;
 	private Process mSource;
 	private int mMessageNumber;
 	private String mContent;

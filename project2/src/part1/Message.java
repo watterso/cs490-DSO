@@ -1,6 +1,8 @@
 package part1;
 
-public interface Message{
+import java.io.Serializable;
+
+public interface Message extends Serializable{
 	int getMessageNumber() ;
 	void setMessageNumber(int messageNumber);
 	String getMessageContents ();

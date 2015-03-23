@@ -12,16 +12,23 @@ public class RegistrationServer {
 	
 	ArrayList<Process> processes;
 	
-	public void main(String[] args){
+	public static void main(String[] args){
 		//Get input
+		try {
+			RegistrationServer server = new RegistrationServer(54321);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public RegistrationServer(int port) throws IOException, ClassNotFoundException{
 		ServerSocket server = new ServerSocket(port);
 		processes = new ArrayList<Process>();
-		
+		System.out.println("Server Started");
 		while(true){
 			Socket conn = server.accept(); //assume that the only thing conneting are processes that are registering
+			System.out.println("Someone connected");
 			ObjectOutputStream output = new ObjectOutputStream(conn.getOutputStream());
 			output.flush(); //always make writer first, and always flush
 			ObjectInputStream input = new ObjectInputStream(conn.getInputStream()); //get the process that is registering
