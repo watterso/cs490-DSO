@@ -24,18 +24,22 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 	
 	ServerSocket mSocket;
 	
+	int curmesgnum=0;
 	
 	public static void main(String args[]){
-		if(args.length<4){
-			System.out.println("Usage: java ChatClient ServerIP ServerPort ClientID ClientPort");
+		if(args.length<5){
+			System.out.println("Usage: java ChatClient ServerIP ServerPort ClientID ClientPort Broadcasttype");
+			System.out.println("The broadcast types are 0 - reliable, 1 - FIFO");
+			System.exit(0);
 		}
 		try {
-			ChatClient blah = new ChatClient(args[0], 54321, "client1", 31415);
+			ChatClient client = new ChatClient(args[0], Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4])==1?BROADCAST_TYPE.FIFO:BROADCAST_TYPE.RELIABLE);
 			Scanner input = new Scanner(System.in);
 			while(true){
-				String msg = input.nextLine();
-				System.out.println("Sending msg: "+msg);
-				blah.SendMessage(msg);
+			
+					String msg = input.nextLine();
+					System.out.println("Sending msg: "+msg);
+					client.SendMessage(msg);
 				
 			}
 		} catch (Exception e) {
@@ -70,7 +74,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 				}else if(mtype == 0){ //next object is a process to be added to the broadcast list
 					Process p = (Process)input.readObject();
 					mBroadcast.addMember(p);
-					System.out.println("Added proc: "+p.getID());
+					System.out.println("Added Process: "+p.getID()+" : "+p.getIP()+" : "+p.getPort()+" added");
 				}
 				input.close();
 				sock.close();
@@ -84,6 +88,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 	public ChatClient(String serverIp, int serverPort, String userId, int listenPort, BROADCAST_TYPE type) throws IOException, ClassNotFoundException{
 		String myIp = InetAddress.getLocalHost().getHostAddress();
 		mProcess = new Process(myIp, listenPort, userId);
+		mSocket = new ServerSocket(listenPort);
 		switch(type){
 		case RELIABLE:
 			mBroadcast = new RbBroadcast();
@@ -114,7 +119,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 		ArrayList<Process> currproccesses = (ArrayList<Process>)input.readObject();
 		for(Process p: currproccesses){
 			mBroadcast.addMember(p);
-			System.out.println("Process: "+p.getID()+" added");
+			System.out.println("Process: "+p.getID()+" : "+p.getIP()+" : "+p.getPort()+" added");
 		}
 		
 		output.close();
@@ -125,7 +130,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 	}
 	
 	public void SendMessage(String message){
-		ChatMessage m = new ChatMessage(mProcess, message);
+		ChatMessage m = new ChatMessage(mProcess, message,curmesgnum+1);
 		mBroadcast.broadcast(m);
 	}
 
@@ -133,9 +138,10 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 	public void receive(Message m) {
 		String name = m.getSource().getID();
 		String msg = m.getMessageContents();
+		curmesgnum = m.getMessageNumber();
 		// TODO Print out received message
 		
-		System.out.println(name+": "+msg);
+		System.out.println(System.currentTimeMillis()+" : "+name+": "+msg);
 	}
 
 }

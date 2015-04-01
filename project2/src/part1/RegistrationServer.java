@@ -15,7 +15,7 @@ public class RegistrationServer {
 	public static void main(String[] args){
 		//Get input
 		try {
-			RegistrationServer server = new RegistrationServer(54321);
+			RegistrationServer server = new RegistrationServer(Integer.parseInt(args[0]));
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -25,7 +25,7 @@ public class RegistrationServer {
 	public RegistrationServer(int port) throws IOException, ClassNotFoundException{
 		ServerSocket server = new ServerSocket(port);
 		processes = new ArrayList<Process>();
-		System.out.println("Server Started");
+		System.out.println("Server Started on port "+port);
 		while(true){
 			Socket conn = server.accept(); //assume that the only thing conneting are processes that are registering
 			System.out.println("Someone connected");

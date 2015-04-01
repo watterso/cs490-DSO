@@ -15,6 +15,7 @@ public class Process implements Serializable{
 	private String mIp;
 	private int mPort;
 	private String mId;
+	public int currMesg;
 	
 	public Process(String ip, int port, String id) {
 		this.mIp = ip;

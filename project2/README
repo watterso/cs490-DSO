@@ -12,6 +12,8 @@ If you would rather compile via command line:
 	3. Run javac part1/(TODO register server here).java
 
 How to run a client:
-	java (TODO client class) (TODO client args)
+	java  part1/ChatClient ServerIP ServerPort# ClientName ClientPort# BroadcastType
+	for broadcast type use 0 - reliable, 1 - FIFO
+	Use the command line to send messages
 How to run the registration server:
-	java (TODO register class) (TODO register args)
+	java part1/RegistrationServer ListenPort#
