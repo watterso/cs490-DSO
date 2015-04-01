@@ -123,7 +123,7 @@ public class FrbBroadcast implements FIFOReliableBroadcast, Broadcast, Broadcast
 
 	@Override
 	public void FIFObroadcast(Message m) {
-		m.setMessageNumber(mSeqNumber++);
+		//m.setMessageNumber(mSeqNumber++);
 		mRbbroadcast.rbroadcast(m);
 	}
 
