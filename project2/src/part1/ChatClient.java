@@ -130,7 +130,8 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 	}
 	
 	public void SendMessage(String message){
-		ChatMessage m = new ChatMessage(mProcess, message,curmesgnum+1);
+		curmesgnum++;
+		ChatMessage m = new ChatMessage(mProcess, message,curmesgnum);
 		mBroadcast.broadcast(m);
 	}
 
