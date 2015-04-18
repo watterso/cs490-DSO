@@ -3,7 +3,9 @@ package part1;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
+/*
+ * Look at Lecture 8 Slide 38 for description of CoBroadcast Algo
+ */
 public class CoBroadcast implements Broadcast, BroadcastReceiver {
 	private RbBroadcast mRbBroadcast;
 	private Process mProcess;
