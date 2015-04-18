@@ -17,7 +17,6 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 	private HashSet<Integer> mDeliveredMessages;
 	private BeBroadcast mBebroadcast;
 	private BroadcastReceiver mOutputReceiver;
-	private int mHighestReceived;
 
 	@Override
 	public void init(Process currentProcess, BroadcastReceiver br) {
@@ -25,7 +24,6 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 		mOutputReceiver = br;
 		mBebroadcast = new BeBroadcast();
 		mBebroadcast.init(currentProcess, this);
-		mHighestReceived = 0;
 	}
 
 	@Override
@@ -50,9 +48,6 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 	public void receive(Message m) {
 		int messageNumber = m.getMessageNumber();
 		if(!mDeliveredMessages.contains(messageNumber)){
-			if(messageNumber > mHighestReceived){
-				mHighestReceived = messageNumber;
-			}
 			mDeliveredMessages.add(messageNumber);
 			//rbdeliver
 			mOutputReceiver.receive(m);
@@ -67,8 +62,6 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 
 	@Override
 	public void broadcast(Message m) {
-		mHighestReceived++;
-		m.setMessageNumber(mHighestReceived);
 		this.rbroadcast(m);
 	}
 }
