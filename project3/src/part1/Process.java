@@ -15,12 +15,13 @@ public class Process implements Serializable{
 	private String mIp;
 	private int mPort;
 	private String mId;
-	public int currMesg;
+	private VectorClock mClock;
 	
 	public Process(String ip, int port, String id) {
 		this.mIp = ip;
 		this.mPort = port; 
 		this.mId = id;
+		mClock = new VectorClock();
 	}
 	
 	public String getIP(){

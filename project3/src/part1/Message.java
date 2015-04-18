@@ -8,4 +8,6 @@ public interface Message extends Serializable{
 	String getMessageContents ();
 	void setMessageContents(String contents);
 	Process getSource();
+	VectorClock getClock();
+	void setClock(VectorClock v);
 }
