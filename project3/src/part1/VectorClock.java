@@ -1,6 +1,7 @@
 package part1;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -26,7 +27,37 @@ public class VectorClock implements Comparable<VectorClock>{
 	}
 	
 	@Override
-	public int compareTo(VectorClock o) {
+	public int compareTo(VectorClock o){
+		HashMap<String, Integer> oMap = o.getMap();
+		Set<String> mSet = mMap.keySet();
+		Set<String> oSet = oMap.keySet();
+		
+		boolean mCo = mSet.containsAll(oSet);
+		boolean oCm = oSet.containsAll(mSet);
+		
+		if(!mCo || !oCm){
+			//don't contain the same keys => not equal
+			return mCo ? 1 : -1;
+		}else{
+			for(String k : mSet){
+				int lval = mMap.get(k);
+				int rval = oMap.get(k);
+				if(lval!=rval){
+					//don't have the same value => not equal
+					return lval > rval ? 1 : -1;
+				}
+			}
+			//no differences in keys => equal
+			return 0;
+		}
+	}
+	
+	
+	public int order(VectorClock o) {
+		// o clock is....
+		//-1: before
+		// 0: concurrent
+		// 1: after
 		HashMap<String, Integer> oMap = o.getMap();
 		Set<String> mSet = mMap.keySet();
 		Set<String> oSet = oMap.keySet();

@@ -1,25 +1,20 @@
 package part1;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+
 
 public class CoBroadcast implements Broadcast, BroadcastReceiver {
 	private RbBroadcast mRbBroadcast;
 	private Process mProcess;
 	private BroadcastReceiver mOutputReceiver;
-	private SortedSet<Message> mPendingSet;
+	private ArrayList<Message> mPendingSet;
 
 	@Override
 	public void init(Process currentProcess, BroadcastReceiver br) {
 		mOutputReceiver = br;
 		mProcess = currentProcess;
-		mPendingSet = new TreeSet<Message>(new Comparator<Message>() {
-			@Override
-			public int compare(Message o1, Message o2) {
-				return o1.getClock().compareTo(o2.getClock());
-			}
-		});
+		mPendingSet = new ArrayList<Message>();
 		mRbBroadcast = new RbBroadcast();
 		mRbBroadcast.init(currentProcess, br);
 	}
@@ -28,6 +23,12 @@ public class CoBroadcast implements Broadcast, BroadcastReceiver {
 	public void receive(Message m) {
 		if(!m.getSource().getID().equals(mProcess.getID())){
 			mPendingSet.add(m);
+			mPendingSet.sort(new Comparator<Message>() {
+				@Override
+				public int compare(Message o1, Message o2) {
+					return o1.getClock().order(o2.getClock());
+				}
+			});
 			deliver();
 		}else{
 			//this came from me!
@@ -36,12 +37,13 @@ public class CoBroadcast implements Broadcast, BroadcastReceiver {
 	
 	private void deliver(){
 		VectorClock mine = mProcess.getClock();
-		Message f = mPendingSet.first();
+		Message f = mPendingSet.get(0);
 		while(f != null){
 			if(mine.compareTo(f.getClock()) < 0){
-				mPendingSet.remove(f);
+				mPendingSet.remove(0);
 				mOutputReceiver.receive(f);
 				mProcess.incClock(f.getSource().getID());
+				f = mPendingSet.get(0);
 			}else{
 				//they should be in order so if 
 				// something is > my current clock stop

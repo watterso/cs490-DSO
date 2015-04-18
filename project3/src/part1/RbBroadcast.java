@@ -1,5 +1,6 @@
 package part1;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -14,13 +15,13 @@ import java.util.HashSet;
  */
 public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastReceiver{
 
-	private HashSet<Integer> mDeliveredMessages;
+	private HashSet<VectorClock> mDeliveredMessages;
 	private BeBroadcast mBebroadcast;
 	private BroadcastReceiver mOutputReceiver;
 
 	@Override
 	public void init(Process currentProcess, BroadcastReceiver br) {
-		mDeliveredMessages = new HashSet<Integer>();
+		mDeliveredMessages = new HashSet<VectorClock>();
 		mOutputReceiver = br;
 		mBebroadcast = new BeBroadcast();
 		mBebroadcast.init(currentProcess, this);
@@ -38,17 +39,17 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 
 	@Override
 	public void rbroadcast(Message m) {
-		int messageNumber = m.getMessageNumber();
-		mDeliveredMessages.add(messageNumber);
+		VectorClock msgClk = m.getClock();
+		mDeliveredMessages.add(msgClk);
 		this.receive(m);
 		mBebroadcast.broadcast(m);
 	}
 
 	@Override
 	public void receive(Message m) {
-		int messageNumber = m.getMessageNumber();
-		if(!mDeliveredMessages.contains(messageNumber)){
-			mDeliveredMessages.add(messageNumber);
+		VectorClock msgClk = m.getClock();
+		if(!mDeliveredMessages.contains(msgClk)){
+			mDeliveredMessages.add(msgClk);
 			//rbdeliver
 			mOutputReceiver.receive(m);
 			mBebroadcast.broadcast(m);
