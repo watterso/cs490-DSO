@@ -11,10 +11,20 @@ public class VectorClock implements Comparable<VectorClock>{
 		mMap = new HashMap<String, Integer>();
 	}
 	
+	public void increment(String key){
+		int val = mMap.get(key);
+		val++;
+		mMap.put(key, val);
+	}
+	
+	public void init(String key){
+		mMap.put(key, 0);
+	}
+	
 	public HashMap<String, Integer> getMap(){
 		return mMap;
 	}
-
+	
 	@Override
 	public int compareTo(VectorClock o) {
 		HashMap<String, Integer> oMap = o.getMap();

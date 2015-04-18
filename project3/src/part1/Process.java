@@ -1,10 +1,8 @@
 package part1;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Process implements Serializable{
 	
@@ -24,6 +22,18 @@ public class Process implements Serializable{
 		mClock = new VectorClock();
 	}
 	
+	public int currClock(){
+		return mClock.getMap().get(mId);
+	}
+	
+	public void incClock(){
+		mClock.increment(mId);
+	} 
+	
+	public void incClock(String id){
+		mClock.increment(id);
+	}
+	
 	public String getIP(){
 		return mIp ;
 	}
@@ -34,6 +44,10 @@ public class Process implements Serializable{
 	
 	public String getID() {
 		return mId;
+	}
+	
+	public VectorClock getClock() {
+		return mClock;
 	}
 	
 	public void send(Message m){

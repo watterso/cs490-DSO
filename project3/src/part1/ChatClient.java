@@ -86,7 +86,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 		String myIp = InetAddress.getLocalHost().getHostAddress();
 		mProcess = new Process(myIp, listenPort, userId);
 		mSocket = new ServerSocket(listenPort);
-		mBroadcast = new RbBroadcast();
+		mBroadcast = new CoBroadcast();
 		mBroadcast.init(mProcess, this);
 		setupServer(serverIp, serverPort);
 		this.start();
