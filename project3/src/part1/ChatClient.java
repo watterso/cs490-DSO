@@ -120,6 +120,7 @@ public class ChatClient extends Thread implements BroadcastReceiver {
 	public void SendMessage(String message){
 		ChatMessage m = new ChatMessage(mProcess, message);
 		mBroadcast.broadcast(m);
+		
 	}
 
 	@Override

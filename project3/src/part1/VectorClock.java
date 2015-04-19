@@ -1,11 +1,16 @@
 package part1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
-public class VectorClock implements Comparable<VectorClock>{
+public class VectorClock implements Comparable<VectorClock>, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2060525953899627150L;
 	private HashMap<String, Integer> mMap;
 	
 	public VectorClock(){

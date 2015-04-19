@@ -20,9 +20,11 @@ public class Process implements Serializable{
 		this.mPort = port; 
 		this.mId = id;
 		mClock = new VectorClock();
+		mClock.init(mId);
 	}
 	
 	public int currClock(){
+		System.out.println(mClock.getMap().get(mId));
 		return mClock.getMap().get(mId);
 	}
 	

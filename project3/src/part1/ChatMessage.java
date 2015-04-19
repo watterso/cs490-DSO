@@ -16,7 +16,7 @@ public class ChatMessage implements Message {
 		mContent = "";
 		mMessageNumber = 0;
 		mClock = new VectorClock();
-	}
+	} 
 	
 	public ChatMessage(Process src, String content) {
 		mSource = src;
