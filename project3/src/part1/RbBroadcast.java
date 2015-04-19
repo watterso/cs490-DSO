@@ -2,6 +2,7 @@ package part1;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * The more useful low level Broadcast fully named Reliable Broadcast.
@@ -42,13 +43,22 @@ public class RbBroadcast implements ReliableBroadcast, Broadcast, BroadcastRecei
 		VectorClock msgClk = m.getClock();
 		mDeliveredMessages.add(msgClk);
 		this.receive(m);
+
 		mBebroadcast.broadcast(m);
 	}
 
 	@Override
 	public void receive(Message m) {
 		VectorClock msgClk = m.getClock();
-		if(!mDeliveredMessages.contains(msgClk)){
+		Iterator<VectorClock> it = mDeliveredMessages.iterator();
+		boolean b=false;
+		while(it.hasNext()){
+			if(it.next().compareTo(msgClk)==0){
+				b = true;
+			}
+		}
+		//if(!mDeliveredMessages.contains(msgClk)){
+		if(!b){
 			mDeliveredMessages.add(msgClk);
 			//rbdeliver
 			mOutputReceiver.receive(m);

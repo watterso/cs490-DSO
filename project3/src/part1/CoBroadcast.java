@@ -31,6 +31,7 @@ public class CoBroadcast implements Broadcast, BroadcastReceiver {
 					return o1.getClock().order(o2.getClock());
 				}
 			});
+			
 			deliver();
 		}else{
 			//this came from me!
@@ -44,6 +45,7 @@ public class CoBroadcast implements Broadcast, BroadcastReceiver {
 			if(mine.compareTo(f.getClock()) < 0){
 				mPendingSet.remove(0);
 				mOutputReceiver.receive(f);
+				mProcess.getClock().setClock(f.getClock());
 				mProcess.incClock(f.getSource().getID());
 				f = mPendingSet.get(0);
 			}else{

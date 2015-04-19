@@ -36,6 +36,7 @@ public class BeBroadcast implements Broadcast, BroadcastReceiver {
 	}
 
 	public void broadcast(Message m) {
+
 		for(Process p : mMembers){
 			//don't broadcast to yourself, who likes congestion?
 			if(p.equals(mCurrentProcess)) continue;

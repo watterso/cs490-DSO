@@ -23,6 +23,16 @@ public class VectorClock implements Comparable<VectorClock>, Serializable{
 		mMap.put(key, val);
 	}
 	
+	public void setClock(VectorClock o){
+		for(String key:o.mMap.keySet()){
+			if(!this.mMap.containsKey(key)){
+				mMap.put(key, o.mMap.get(key));
+			}else if(mMap.get(key) < o.mMap.get(key)){
+				mMap.put(key, o.mMap.get(key));
+			}
+		}
+	}
+	
 	public void init(String key){
 		mMap.put(key, 0);
 	}
@@ -32,7 +42,13 @@ public class VectorClock implements Comparable<VectorClock>, Serializable{
 	}
 	
 	@Override
+	public boolean equals(Object o){
+		return (compareTo((VectorClock)o)==0);
+	}
+	
+	@Override
 	public int compareTo(VectorClock o){
+		//System.out.println("POOP");
 		HashMap<String, Integer> oMap = o.getMap();
 		Set<String> mSet = mMap.keySet();
 		Set<String> oSet = oMap.keySet();

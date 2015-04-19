@@ -24,7 +24,6 @@ public class Process implements Serializable{
 	}
 	
 	public int currClock(){
-		System.out.println(mClock.getMap().get(mId));
 		return mClock.getMap().get(mId);
 	}
 	
